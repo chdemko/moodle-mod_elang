@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Prints a particular instance of elang
  *
@@ -36,6 +37,16 @@ require_login($course, true, $cm);
 
 // Get the context
 $context = context_module::instance($cm->id);
+
+// Test if teacher: getting the id
+$roleteach = get_user_roles($context, $USER->id, true);
+$rteach = key($roleteach);
+$teachid = $roleteach[$rteach]->roleid;
+
+// Redirect if teacher
+if (($teachid == 3)||($teachid==4)){
+	header('Location: teacherview.php/?id='.$id);
+}
 
 // Verify access right
 require_capability('mod/elang:view', $context);
@@ -105,7 +116,7 @@ $config = get_config('elang');
 	<body>
 		<script>
 			if (!!document.createElement('video').textTracks)
-			{
+			{	
 				new Elang.App(
 <?php
 	echo json_encode(array('url' => (string) new moodle_url('/mod/elang/server.php', array('id' => $cm->id)), 'timeout' => $config->timeout));
