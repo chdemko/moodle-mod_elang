@@ -101,6 +101,7 @@ $string['studentsuccess'] = 'Success';
 $string['studenttitle'] = 'Title';
 $string['subtitle_help'] = 'Upload a file with UTF-8 encoding usinf srt or webvtt format';
 $string['subtitleinvalidformat'] = 'Invalid subtitle file format';
+$string['subtitleunknownencoding'] = 'Not able to detect the encoding of your subtitle file. Please convert this file first to UTF-8 and try again!';
 $string['subtitlemaxsize_config'] = 'Set the maximum subtitle size in bytes';
 $string['subtitlemaxsize'] = 'Maximum subtitle size';
 $string['subtitleunabletosave'] = 'Unable to save subtitle file. Contact your administrator.';
