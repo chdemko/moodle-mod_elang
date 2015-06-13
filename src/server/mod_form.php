@@ -301,6 +301,8 @@ class mod_elang_mod_form extends moodleform_mod
 			}
 			catch (\Exception $e)
 			{
+				$errors['subtitle'] = $e;
+				break;
 			}
 
 			try
@@ -311,6 +313,8 @@ class mod_elang_mod_form extends moodleform_mod
 			}
 			catch (\Exception $e)
 			{
+				$errors['subtitle'] = $e;
+				break;
 			}
 		}
 

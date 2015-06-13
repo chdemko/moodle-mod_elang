@@ -18,7 +18,9 @@ namespace Elang;
 
 defined('MOODLE_INTERNAL') || die();
 
+# **** Which file does this line refer to? ****
 require_once dirname(__FILE__) . '/vendor/autoload.php';
+# **** Which file does this line refer to? ****
 
 /**
  * Send a json response
@@ -161,7 +163,9 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 {
 	global $DB;
 
-	require_once dirname(__FILE__) . '/locallib.php';
+	# This line refers to the same file
+	// require_once dirname(__FILE__) . '/locallib.php';
+	# This line refers to the same file
 
 	$id = $elang->id;
 	$cmid = $elang->coursemodule;
