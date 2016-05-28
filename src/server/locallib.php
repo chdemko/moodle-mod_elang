@@ -281,7 +281,7 @@ function transcodeSubtitle($contents, $encoding_to = 'UTF-8', $detect_order = nu
 function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 {
 	global $DB;
-
+	
 	$id = $elang->id;
 	$cmid = $elang->coursemodule;
 	$context = \context_module::instance($cmid);
@@ -335,11 +335,13 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 	$cue = new \stdClass;
 
 	$cues = $mform->getVtt()->getCues();
-
+	$description="\n";
+	
 	if ($cues)
 	{
 		foreach ($cues as $i => $elt)
 		{
+			
 			$cue->id_elang = $id;
 			$text = strip_tags($elt->getText());
 
@@ -348,18 +350,35 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			if (mb_strlen($title, 'UTF-8') > $elang->titlelength)
 			{
 				$cue->title = preg_replace('/ [^ ]*$/', ' ...', mb_substr($title, 0, $elang->titlelength, 'UTF-8'));
+				// amine
+				//$tableau=explode("//",$cue->title );
+				//if (sizeof($tableau)>2) {
+				//	$description=$tableau[1];
+				//}
+				// amine
 			}
 			else
 			{
-				$cue->title = $title;
-			}
+				// we seperate description  from the title
+				$tableau=explode("//",$title );
+				if (sizeof($tableau)==2) {
+					$description=$tableau[1];
+					$cue->title = $tableau[0];
+					
+				}
+				else{
 
+					$cue->title = $tableau[0];
+				}
+			}
+             
 			$cue->begin	= $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 			$data = array();
-
+			
+			
 			foreach ($texts as $text)
 			{
 				if (isset($text[0]))
@@ -401,14 +420,20 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 
 						$data[] = $element;
 					}
+
 				}
 			}
+			// we add the description to the element array
+			$data[] = array('type' => 'text', 'content' => str_replace("//","",$description));
+			
 
 			$cue->json = json_encode($data);
+			
 			$DB->insert_record('elang_cues', $cue);
 		}
 	}
 }
+
 
 /**
  * Split a string into array of multi-bytes characters
