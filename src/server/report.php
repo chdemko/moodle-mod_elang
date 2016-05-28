@@ -64,6 +64,10 @@ class mod_elang_report_form extends moodleform
 // Get the user id
 $id_user = optional_param('id_user', 0, PARAM_INT);
 
+// Get the global id
+$id_global = $_GET['id_global'];
+var_dump($id_global);
+
 // Get the solutions
 $solutions = $DB->get_records('elang_cues', array('id_elang' => $cm->instance), 'number');
 
@@ -232,7 +236,82 @@ else
 	$PAGE->set_title(format_string($elang->name));
 	$PAGE->set_heading(format_string($course->fullname));
 
-	if ($id_user)
+	if ($id_global != null)
+	{	
+		// Output starts here.
+		echo $OUTPUT->header();
+
+		// Prepare the table
+		$table = new html_table;
+
+		// Prepare the header for the table
+		$table->head = array(
+			get_string('number', 'elang'),
+			get_string('studenttitle', 'elang'),
+			get_string('studentsuccess', 'elang'),
+			get_string('studenthelp', 'elang'),
+			get_string('studenterror', 'elang'),
+			get_string('studentremaining', 'elang')
+		);
+
+		$answers2 = array();
+
+		// Get the answers
+		$answers = $DB->get_records('elang_users', array('id_elang' => $cm->instance));
+
+		foreach ($answers as $answer)
+		{
+			$answers2[$answer->id_cue][] = json_decode($answer->json, true);
+		}
+		
+		// Prepare the table data
+		$table->data = array();
+
+		foreach ($solutions as $cue => $solution)
+		{
+			$count = 0;
+			$success = 0;
+			$help = 0;
+			$error = 0;
+
+			// Compute data
+			foreach ($solution->json as $n => $data)
+			{
+				$count++;
+
+				foreach ($answers2 as $akey => $answ) {
+					foreach ($answ as $k => $a) {
+						if (isset($a[$n]))
+						{
+							if ($a[$n]['help'])
+							{
+								$help++;
+							}
+							elseif ($a[$n]['content'] == $data)
+							{
+								$success++;
+							}
+							elseif ($a[$n]['content'] != '')
+							{
+								$error++;
+							}
+						}
+					}
+					
+				}
+			}
+
+			// Add data
+			$table->data[] = array($solution->number, $solution->title, $success, $help, $error, $count - $success - $help - $error);
+		}
+
+		// Prepare align
+		$table->align = array('right', null, 'right', 'right', 'right', 'right');
+
+		// Output the table
+		echo html_writer::table($table);
+	}
+	elseif ($id_user)
 	{
 		if (version_compare($version, '2.7') < 0)
 		{
@@ -292,16 +371,16 @@ else
 				get_string('studentremaining', 'elang')
 			);
 
+			$answers2 = array();
+
 			// Get the answers
 			$answers = $DB->get_records('elang_users', array('id_elang' => $cm->instance, 'id_user' => $id_user));
-
-			$answers2 = array();
 
 			foreach ($answers as $answer)
 			{
 				$answers2[$answer->id_cue] = json_decode($answer->json, true);
 			}
-
+			
 			// Prepare the table data
 			$table->data = array();
 
@@ -556,6 +635,12 @@ else
 			}
 		}
 
+		//Define 4 variables that contains the total for each column
+		$totalsuccess = 0;
+		$totalhelp = 0;
+		$totalerror = 0;
+		$totalcount = 0;
+
 		// Add the users to the table
 		foreach ($users as $user)
 		{
@@ -574,7 +659,29 @@ else
 				$user->error,
 				$count - $user->success - $user->help - $user->error
 			);
+
+			//Increment variables following each student answer
+			$totalsuccess = $totalsuccess + $user->success;
+			$totalhelp = $totalhelp + $user->help;
+			$totalerror = $totalerror + $user->error;
+			$totalcount = $totalcount + ($count - $user->success - $user->help - $user->error);
 		}
+
+		//Add the total line with the 4 variables
+		$table->data[] = array(
+				html_writer::link(
+					new moodle_url(
+						'/mod/elang/view.php',
+						array('id' => $cm->id, 'id_global' => 'all')
+					),
+					sprintf(get_string('studentformatname', 'elang'), 'Total', 'étudiants')
+				),
+				'',
+				$totalsuccess,
+				$totalhelp,
+				$totalerror,
+				$totalcount
+			);
 
 		// Define alignments
 		$table->align = array(null, null, 'right', 'right', 'right', 'right');
