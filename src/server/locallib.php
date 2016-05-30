@@ -377,6 +377,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				
 				if (isset($text[0]))
 				{
+					
 					// Detect type of part
 					if ($text[0] == '[' && $text[strlen($text) - 1] == ']')
 					{
