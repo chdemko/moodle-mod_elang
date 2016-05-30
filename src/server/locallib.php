@@ -350,12 +350,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			if (mb_strlen($title, 'UTF-8') > $elang->titlelength)
 			{
 				$cue->title = preg_replace('/ [^ ]*$/', ' ...', mb_substr($title, 0, $elang->titlelength, 'UTF-8'));
-				// amine
-				//$tableau=explode("//",$cue->title );
-				//if (sizeof($tableau)>2) {
-				//	$description=$tableau[1];
-				//}
-				// amine
+			
 			}
 			else
 			{
