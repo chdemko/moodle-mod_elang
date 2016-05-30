@@ -281,7 +281,6 @@ function transcodeSubtitle($contents, $encoding_to = 'UTF-8', $detect_order = nu
 function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 {
 	global $DB;
-	
 	$id = $elang->id;
 	$cmid = $elang->coursemodule;
 	$context = \context_module::instance($cmid);
@@ -335,13 +334,12 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 	$cue = new \stdClass;
 
 	$cues = $mform->getVtt()->getCues();
-	$description="\n";
+	$description = "\n";
 	
 	if ($cues)
 	{
 		foreach ($cues as $i => $elt)
 		{
-			
 			$cue->id_elang = $id;
 			$text = strip_tags($elt->getText());
 
@@ -350,24 +348,23 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			if (mb_strlen($title, 'UTF-8') > $elang->titlelength)
 			{
 				$cue->title = preg_replace('/ [^ ]*$/', ' ...', mb_substr($title, 0, $elang->titlelength, 'UTF-8'));
-			
 			}
 			else
 			{
-				// we seperate description  from the title
-				$tableau=explode("//",$title );
-				if (sizeof($tableau)==2) {
-					$description=$tableau[1];
+				// We seperate description  from the title
+				$tableau = explode("//",$title );
+				if (sizeof($tableau) == 2) 
+				{
+					$description = $tableau[1];
 					$cue->title = $tableau[0];
-					
 				}
-				else{
-
+				else
+				{
 					$cue->title = $tableau[0];
 				}
 			}
              
-			$cue->begin	= $elt->getStartMS();
+			$cue->begin = $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -418,7 +415,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 
 				}
 			}
-			// we add the description to the element array
+			// We add the description to the element array
 			$data[] = array('type' => 'text', 'content' => str_replace("//","",$description));
 			
 
