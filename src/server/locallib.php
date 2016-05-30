@@ -336,7 +336,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 
 	$cues = $mform->getVtt()->getCues();
 
-	$description="\n";
+	$description = "\n";
 
 	if ($cues)
 	{
@@ -354,9 +354,9 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			else
 			{
 				// We seperate description  from the title
-				$tableau=explode("//", $title);
+				$tableau = explode("//", $title);
 
-				if (sizeof($tableau) == 2) 
+				if (sizeof($tableau) == 2)
 				{
 					$description = $tableau[1];
 					$cue->title = $tableau[0];
@@ -365,9 +365,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				{
 					$cue->title = $title;
 				}
-				
 			}
-
 			$cue->begin	= $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
