@@ -335,7 +335,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 
 	$cues = $mform->getVtt()->getCues();
 	$description = "\n";
-	
+
 	if ($cues)
 	{
 		foreach ($cues as $i => $elt)
@@ -350,7 +350,8 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				$cue->title = preg_replace('/ [^ ]*$/', ' ...', mb_substr($title, 0, $elang->titlelength, 'UTF-8'));
 			}
 			else
-			{	// We seperate description  from the title
+			{
+				// We seperate description  from the title
 				$tableau = explode("//", $title);
 				
 				if (sizeof($tableau) == 2) 
@@ -362,6 +363,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				{
 					$cue->title = $tableau[0];
 				}
+				
 			}
 			
 			$cue->begin = $elt->getStartMS();
@@ -372,6 +374,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			
 			foreach ($texts as $text)
 			{
+				
 				if (isset($text[0]))
 				{
 					// Detect type of part
