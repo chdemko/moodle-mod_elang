@@ -366,6 +366,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 					$cue->title = $title;
 				}
 			}
+			
 			$cue->begin	= $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
