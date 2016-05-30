@@ -335,7 +335,6 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 
 	$cues = $mform->getVtt()->getCues();
 	$description = "\n";
-	
 	if ($cues)
 	{
 		foreach ($cues as $i => $elt)
@@ -352,7 +351,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			else
 			{
 				// We seperate description  from the title
-				$tableau = explode("//",$title );
+				$tableau = explode("//", $title);
 				if (sizeof($tableau) == 2) 
 				{
 					$description = $tableau[1];
@@ -363,14 +362,11 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 					$cue->title = $tableau[0];
 				}
 			}
-             
 			$cue->begin = $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 			$data = array();
-			
-			
 			foreach ($texts as $text)
 			{
 				if (isset($text[0]))
@@ -409,18 +405,13 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 						{
 							$element['link'] = $results[3];
 						}
-
 						$data[] = $element;
 					}
-
 				}
 			}
 			// We add the description to the element array
-			$data[] = array('type' => 'text', 'content' => str_replace("//","",$description));
-			
-
+			$data[] = array('type' => 'text', 'content' => str_replace("//", "", $description));
 			$cue->json = json_encode($data);
-			
 			$DB->insert_record('elang_cues', $cue);
 		}
 	}
