@@ -353,6 +353,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			{
 				// We seperate description  from the title
 				$tableau = explode("//", $title);
+				
 				if (sizeof($tableau) == 2)
 				{
 					$description = $tableau[1];
@@ -362,19 +363,18 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				{
 					$cue->title = $tableau[0];
 				}
+				
 			}
 			$cue->begin = $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 			$data = array();
-			
 			foreach ($texts as $text)
 			{
 				
 				if (isset($text[0]))
 				{
-					
 					// Detect type of part
 					if ($text[0] == '[' && $text[strlen($text) - 1] == ']')
 					{
