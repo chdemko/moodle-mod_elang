@@ -381,7 +381,7 @@ else
 			{
 				$answers2[$answer->id_cue] = json_decode($answer->json, true);
 			}
-	
+
 			// Prepare the table data
 			$table->data = array();
 
