@@ -279,9 +279,9 @@ else
 			{
 				$count++;
 
-				foreach ($answers2 as $akey => $answ) 
+				foreach ($answers2 as $akey => $answ)
 				{
-					foreach ($answ as $k => $a) 
+					foreach ($answ as $k => $a)
 					{
 						if (isset($a[$n]))
 						{
@@ -381,7 +381,7 @@ else
 			{
 				$answers2[$answer->id_cue] = json_decode($answer->json, true);
 			}
-		
+	
 			// Prepare the table data
 			$table->data = array();
 
