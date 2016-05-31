@@ -237,7 +237,7 @@ else
 	$PAGE->set_heading(format_string($course->fullname));
 
 	if ($id_global != null)
-	{	
+	{
 		// Output starts here.
 		echo $OUTPUT->header();
 
@@ -263,7 +263,7 @@ else
 		{
 			$answers2[$answer->id_cue][] = json_decode($answer->json, true);
 		}
-		
+
 		// Prepare the table data
 		$table->data = array();
 
@@ -279,8 +279,10 @@ else
 			{
 				$count++;
 
-				foreach ($answers2 as $akey => $answ) {
-					foreach ($answ as $k => $a) {
+				foreach ($answers2 as $akey => $answ) 
+				{
+					foreach ($answ as $k => $a) 
+					{
 						if (isset($a[$n]))
 						{
 							if ($a[$n]['help'])
@@ -297,7 +299,6 @@ else
 							}
 						}
 					}
-					
 				}
 			}
 
@@ -380,7 +381,7 @@ else
 			{
 				$answers2[$answer->id_cue] = json_decode($answer->json, true);
 			}
-			
+		
 			// Prepare the table data
 			$table->data = array();
 
@@ -635,7 +636,7 @@ else
 			}
 		}
 
-		//Define 4 variables that contains the total for each column
+		// Define 4 variables that contains the total for each column
 		$totalsuccess = 0;
 		$totalhelp = 0;
 		$totalerror = 0;
@@ -660,14 +661,14 @@ else
 				$count - $user->success - $user->help - $user->error
 			);
 
-			//Increment variables following each student answer
+			// Increment variables following each student answer
 			$totalsuccess = $totalsuccess + $user->success;
 			$totalhelp = $totalhelp + $user->help;
 			$totalerror = $totalerror + $user->error;
 			$totalcount = $totalcount + ($count - $user->success - $user->help - $user->error);
 		}
 
-		//Add the total line with the 4 variables
+		// Add the total line with the 4 variables
 		$table->data[] = array(
 				html_writer::link(
 					new moodle_url(
