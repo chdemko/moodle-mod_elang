@@ -100,6 +100,7 @@ function descripDetection($string)
 	{
 		// Delet the descriptions from the input
 		$string = str_replace($value, '', $string);
+
 		// Building the description sentence
 		$description = $description . ", " . str_replace('//', '', $value);
 	}
@@ -394,8 +395,8 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			{
 				// If we don't find description the last value of the description will be taken
 				$cue->title = $title;
-   				$cue->description = $description;
-   			}
+				$cue->description = $description;
+			}
 			else
 			{
 				// If we find description we will call the descripDetection function 
@@ -403,15 +404,15 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				$cue->title = $tab['title'];
 				$cue->description = $tab['description'];
 				$description = $tab['description'];
-  			}
-            
-            $cue->begin	= $elt->getStartMS();
+			}
+
+			$cue->begin	= $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 			// Delete the description fields in the exercice text
-			for($i=0;$i < count($texts);$i++)
+			for($i = 0; $i < count($texts); $i++)
 			{
 				$texts[$i] = preg_replace('/\/\/.*(\r|$|\n)/', '', $texts[$i]);
 			}
