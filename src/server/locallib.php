@@ -399,7 +399,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			}
 			else
 			{
-				// If we find description we will call the descripDetection function 
+				// If we find description we will call the descripDetection function
 				$tab = descripDetection($cue->title);
 				$cue->title = $tab['title'];
 				$cue->description = $tab['description'];
@@ -412,7 +412,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 			// Delete the description fields in the exercice text
-			for($i = 0; $i < count($texts); $i++)
+			for ($i = 0; $i < count($texts); $i++)
 			{
 				$texts[$i] = preg_replace('/\/\/.*(\r|$|\n)/', '', $texts[$i]);
 			}
