@@ -81,7 +81,7 @@ function generateTitle($elang, $options)
 /**
  * Description detection
  *
- * @param   string  $string    
+ * @param   string  $string  The texte in the srt file   
  * 
  * @return  array  Array of multiple String [title,description]
  *
@@ -89,28 +89,27 @@ function generateTitle($elang, $options)
  */
 function descripDetection($string)
 {
-	//initialize description var
+	// Initialize description var
 	$description = "";
 
-	//detection of description with regex
+	// Detection of description with regex
 	preg_match_all("/\/\/.*(\r|$|\n)/", $string, $output_array);
 
 	// Get the reseult of the description
 	foreach ($output_array[0] as $value)
 	{
-		//Delet the descriptions from the input
-		$string= str_replace($value, '', $string);
-		//Building the description sentence
-		$description= $description.", ".str_replace('//', '', $value);
+		// Delet the descriptions from the input
+		$string = str_replace($value, '', $string);
+		// Building the description sentence
+		$description = $description . ", " . str_replace('//', '', $value);
 	}
 
 	$arrayResult = array(
-    "title" => $string,
-    "description" => $description,
+		"title" => $string,
+		"description" => $description,
 	);
 
 	return $arrayResult;
-	
 }
 
 /**
@@ -370,7 +369,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 	$cue = new \stdClass;
 
 	$cues = $mform->getVtt()->getCues();
-	$description="";
+	$description = "";
 
 	if ($cues)
 	{
@@ -390,31 +389,31 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				$cue->title = $title;
 			}
 
-			//Making sur there is description in the cue
-			if (stristr($cue->title, '//') === FALSE)
+			// Making sur there is description in the cue
+			if (stristr($cue->title, '//') === false)
 			{
-				//If we don't find description the last value of the description will be taken
+				// If we don't find description the last value of the description will be taken
 				$cue->title = $title;
    				$cue->description = $description;
-			}
+   			}
 			else
 			{
-				//If we find description we will call the descripDetection function 
-				$tab=descripDetection($cue->title);
-  				$cue->title = $tab['title'];
-   				$cue->description = $tab['description'];
-   				$description=$tab['description'];
-			}
+				// If we find description we will call the descripDetection function 
+				$tab = descripDetection($cue->title);
+				$cue->title = $tab['title'];
+				$cue->description = $tab['description'];
+				$description = $tab['description'];
+  			}
             
-			$cue->begin	= $elt->getStartMS();
+            $cue->begin	= $elt->getStartMS();
 			$cue->end = $elt->getStopMS();
 			$cue->number = $i + 1;
 			$texts = preg_split('/(\[[^\]]*\]|{[^}]*})/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-			//Delete the description fields in the exercice text
-			for($i=0;$i < count($texts);$i++) 
-			{ 
- 				$texts[$i]=preg_replace('/\/\/.*(\r|$|\n)/', '', $texts[$i]);
+			// Delete the description fields in the exercice text
+			for($i=0;$i < count($texts);$i++)
+			{
+				$texts[$i] = preg_replace('/\/\/.*(\r|$|\n)/', '', $texts[$i]);
 			}
 
 			$data = array();
@@ -463,7 +462,7 @@ function saveFiles(\stdClass $elang, \mod_elang_mod_form $mform)
 				}
 			}
 
-			//Adding description fields
+			// Adding description fields
 			$data[] = array('type' => 'description', 'content' => $description);
 			$cue->json = json_encode($data);
 			$DB->insert_record('elang_cues', $cue);
