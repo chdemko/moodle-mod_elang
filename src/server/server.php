@@ -244,10 +244,17 @@ switch ($task)
 						);
 					}
 				}
-				else
+				elseif ($element['type'] == 'text')
 				{
 					$elements[] = array(
 						'type' => 'text',
+						'content' => $element['content']
+					);
+				}
+				else
+				{
+					$elements[] = array(
+						'type' => 'description',
 						'content' => $element['content']
 					);
 				}

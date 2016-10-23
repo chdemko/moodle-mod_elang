@@ -70,6 +70,16 @@ enyo.kind({
 				var element = elements[i];
 				switch (element.type)
 				{
+					case 'description':
+						this.createComponents(
+							[
+								{tag: '/br', 'content': ''},
+								{tag: 'h2', 'content': 'Description de la sequence'},
+								{tag: 'span', 'content': element.content},
+							],
+							{owner: this}
+						);
+						break;
 					case 'text':
 						this.createComponents(
 							[
